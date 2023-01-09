@@ -14,8 +14,8 @@ namespace Marka_DAL.Concrete
         DataContext db = new DataContext();
         public void Create(Category entity)
         {
-
-
+            db.Categories.Add(entity);
+            db.SaveChanges();
         }
 
         public void Delete(Category entity)
