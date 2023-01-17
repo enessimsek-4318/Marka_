@@ -1,4 +1,5 @@
 ﻿using Marka_BLL.Abstract;
+using Marka_WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Marka_WebUI.Controllers
@@ -13,7 +14,11 @@ namespace Marka_WebUI.Controllers
 
         public IActionResult Index()
         {
-            return View(_productService.GetAll());
+
+            return View(new ProductListModel()
+            {
+                Products = _productService.GetAll()
+            });
         }
     }
 }

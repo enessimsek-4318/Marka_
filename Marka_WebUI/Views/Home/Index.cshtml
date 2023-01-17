@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Marka_Entity.Product>
+﻿@using Marka_WebUI.Models
+@model ProductListModel
 @{
     Layout = null;
 }
@@ -11,7 +12,7 @@
     <title>Index</title>
 </head>
 <body>
-    @foreach (var item in Model)
+    @foreach (var item in Model.Products)
     {
      <p>@item.Name</p>   
     }

@@ -1,14 +1,16 @@
 using Marka_BLL.Abstract;
 using Marka_BLL.Concrete;
 using Marka_DAL.Abstract;
+using Marka_DAL.Concrete;
 using Marka_DAL.Memory;
+using Marka_WebUI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddScoped<IProductDal, MemoryProductDal>();
+builder.Services.AddScoped<IProductDal, ProductDal>();
 builder.Services.AddScoped<IProductService, ProductManager>();
 
 builder.Services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Latest);
@@ -25,7 +27,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.CustomStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
@@ -36,5 +38,6 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
 });
+SeedDatabase.Seed();
 app.Run();
 
