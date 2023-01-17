@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Marka_DAL\Marka_DAL.csproj" />
+    <ProjectReference Include="..\Marka_Entity\Marka_Entity.csproj" />
+  </ItemGroup>
+
 </Project>

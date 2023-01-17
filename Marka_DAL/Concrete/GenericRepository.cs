@@ -22,27 +22,47 @@ namespace Marka_DAL.Concrete
 
         public void Delete(T entity)
         {
-            throw new NotImplementedException();
+            using (var context=new TContext())
+            {
+                context.Set<T>().Remove(entity);
+                context.SaveChanges();
+            }
         }
 
         public T Find(Expression<Func<T, bool>> filter)
         {
-            throw new NotImplementedException();
+            using (var context=new TContext())
+            {
+               return context.Set<T>().Find(filter);
+            }
         }
 
-        public IQueryable<T> GetAll(Expression<Func<T, bool>> filter = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null)
         {
-            throw new NotImplementedException();
+            using (var context=new TContext())
+            {
+                return filter == null
+                    ? context.Set<T>().ToList()
+                    : context.Set<T>().Where(filter).ToList();
+            }
         }
 
         public T GetById(int id)
         {
-            throw new NotImplementedException();
+            using (var context=new TContext())
+            {
+                return context.Set<T>().Find(id);
+            }
         }
 
         public void Update(T entity)
         {
-            throw new NotImplementedException();
+            using (var context=new TContext())
+            {
+                context.Set<T>().Update(entity);
+                //context.Entry(entity).State = EntityState.Modified;
+                context.SaveChanges();
+            }
         }
     }
 }

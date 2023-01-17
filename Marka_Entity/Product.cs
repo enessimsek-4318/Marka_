@@ -15,3 +15,4 @@ namespace Marka_Entity
         public List<ProductCategory> ProductCategories { get; set; }
     }
 }
+ 
