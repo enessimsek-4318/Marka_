@@ -37,7 +37,7 @@ namespace Marka_DAL.Concrete
             }
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null)
+        public List<T> GetAll(Expression<Func<T, bool>> filter = null)
         {
             using (var context=new TContext())
             {

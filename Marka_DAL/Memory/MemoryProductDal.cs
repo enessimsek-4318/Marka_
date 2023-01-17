@@ -26,7 +26,7 @@ namespace Marka_DAL.Memory
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Product> GetAll(Expression<Func<Product, bool>> filter = null)
+        public List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
         {
             var products = new List<Product>()
             {

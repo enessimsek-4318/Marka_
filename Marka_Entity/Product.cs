@@ -13,6 +13,10 @@ namespace Marka_Entity
         public List<Image> Images { get; set; }
         public decimal Price { get; set; }
         public List<ProductCategory> ProductCategories { get; set; }
+        public Product()
+        {
+            Images = new List<Image>();
+        }
     }
 }
  
