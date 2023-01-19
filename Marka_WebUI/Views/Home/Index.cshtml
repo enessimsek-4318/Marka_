@@ -1,20 +1,11 @@
 ﻿@using Marka_WebUI.Models
 @model ProductListModel
-@{
-    Layout = null;
-}
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
+
     @foreach (var item in Model.Products)
     {
      <p>@item.Name</p>   
     }
-</body>
-</html>
+
+ 
