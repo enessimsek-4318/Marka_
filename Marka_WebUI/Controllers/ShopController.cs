@@ -1,4 +1,5 @@
 ﻿using Marka_BLL.Abstract;
+using Marka_Entity;
 using Marka_WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,19 @@ namespace Marka_WebUI.Controllers
             {
                 Products = _productService.GetAll()
             });
+        }
+        public IActionResult Details(int? id)
+        {
+            if (id==null)
+            {
+                return NotFound();
+            }
+            Product product=_productService.GetById(id.Value);
+            if (product==null)
+            {
+                return NotFound();
+            }
+            return View(product);
         }
     }
 }
