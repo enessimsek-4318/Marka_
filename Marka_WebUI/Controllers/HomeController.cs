@@ -20,5 +20,9 @@ namespace Marka_WebUI.Controllers
                 Products = _productService.GetAll()
             });
         }
+        public IActionResult Contact()
+        {
+            return View();
+        }
     }
 }

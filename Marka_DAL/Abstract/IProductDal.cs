@@ -10,6 +10,5 @@ namespace Marka_DAL.Abstract
 {
     public interface IProductDal:IRepository<Product>
     {
-        IEnumerable<Product> GetPopularProduct();
     }
 }

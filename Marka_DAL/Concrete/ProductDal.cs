@@ -1,5 +1,6 @@
 ﻿using Marka_DAL.Abstract;
 using Marka_Entity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,14 @@ namespace Marka_DAL.Concrete
 {
     public class ProductDal : GenericRepository<Product, DataContext>, IProductDal
     {
-        public IEnumerable<Product> GetPopularProduct()
+        public new List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
         {
-            throw new NotImplementedException();
+            using (var context = new DataContext())
+            {
+                return filter==null
+                    ?context.Products.Include(i=> i.Images).ToList()
+                    :context.Products.Include("Images").Where(filter).ToList();
+            }
         }
     }
 }
