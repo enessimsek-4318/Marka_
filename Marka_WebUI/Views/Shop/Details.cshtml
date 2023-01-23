@@ -1,4 +1,4 @@
-﻿
+﻿@model ProductDetailsModel
 @{
     ViewData["Title"] = "Details";
 }
@@ -6,27 +6,30 @@
     <div class="col-md-3">
         <div class="row">
             <div class="col-md-12">
-                <img src="~/img/@Model.Images[0].ImageUrl" alt="@Model.Name" class="fluid-img" id="imageBox"/>
+                <img src="~/img/@Model.Product.Images[0].ImageUrl" alt="@Model.Product.Name" class="fluid-img" id="imageBox" />
             </div>
         </div>
         <div class="row">
             @for (int i = 0; i < 4; i++)
             {
                 <div class="col-md-3">
-                    <img src="~/img/@Model.Images[i].ImageUrl" alt="@Model.Name" class="img-fluid" style="display-block" onclick=productPhotos(this)/>
+                    <img src="~/img/@Model.Product.Images[i].ImageUrl" alt="@Model.Product.Name" class="img-fluid" style="display-block" onclick=productPhotos(this) />
                 </div>
             }
         </div>
     </div>
     <div class="col-md-9">
         <h1 class="mb-3">
-            @Model.Name
+            @Model.Product.Name
         </h1>
         <hr/>
-        <a href="#" class="btn btn-link p-0 mb-3">Telefon</a>
+        @foreach (var item in Model.Categories)
+        {
+            <a href="#" class="btn btn-link p-0 mb-3">@item.Name</a>
+        }
         <div class="mb-3">
             <h4 class="text-primary mb-3">
-                @Model.Price TL
+                @Model.Product.Price TL
             </h4>
             <button type="submit" class="btn btn-primary btn-lg">Add To Chart</button>
         </div>

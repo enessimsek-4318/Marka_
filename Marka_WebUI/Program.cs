@@ -12,6 +12,8 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IProductDal, ProductDal>();
 builder.Services.AddScoped<IProductService, ProductManager>();
+builder.Services.AddScoped<ICategoryDal, CategoryDal>();
+builder.Services.AddScoped<ICategoryService, CategoryManager>();
 
 builder.Services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Latest);
 

@@ -22,6 +22,7 @@ namespace Marka_DAL.Concrete
                 if (context.Products.Count()==0)
                 {
                     context.Products.AddRange(Products);
+                    context.AddRange(ProductCategory);
                 }
                 context.SaveChanges();
             }
@@ -29,7 +30,8 @@ namespace Marka_DAL.Concrete
         private static List<Category> Categories = new List<Category>()
         {
             new Category(){Name="Bilgisayar"},
-            new Category(){Name="Telefon"}
+            new Category(){Name="Telefon"},
+            new Category(){Name="Elektronik"}
         };
         private static Product[] Products =
         {
@@ -40,6 +42,18 @@ namespace Marka_DAL.Concrete
             new Product(){Name="Iphone 13 Pro", Price=38000,Images={new Image(){ImageUrl="17.jpg"},new Image(){ImageUrl="18.jpg"}, new Image() { ImageUrl = "19.jpg" },new Image(){ImageUrl="20.jpg" } },Description="<p>Şahane</p>" },
             new Product(){Name="Iphone 13 Pro Max", Price=41000,Images={new Image(){ImageUrl="21.jpg"},new Image(){ImageUrl="22.jpg"}, new Image() { ImageUrl = "23.jpg" },new Image(){ImageUrl="24.jpg" } },Description="<p>Güzellik</p>" },
             new Product(){Name="Iphone 13 ", Price=27000,Images={new Image(){ImageUrl="25.jpg"},new Image(){ImageUrl="26.jpg"}, new Image() { ImageUrl = "27.jpg" },new Image(){ImageUrl="28.jpg" } },Description="<p>Güçlü</p>" },
+        };
+        private static ProductCategory[] ProductCategory =
+        {
+            new ProductCategory(){Product=Products[0],Category=Categories[0]},
+            new ProductCategory(){Product=Products[1],Category=Categories[1]},
+            new ProductCategory(){Product=Products[2],Category=Categories[2]},
+            new ProductCategory(){Product=Products[3],Category=Categories[0]},
+            new ProductCategory(){Product=Products[4],Category=Categories[2]},
+            new ProductCategory(){Product=Products[5],Category=Categories[1]},
+            new ProductCategory(){Product=Products[6],Category=Categories[1]},
+            new ProductCategory(){Product=Products[0],Category=Categories[1]},
+            new ProductCategory(){Product=Products[0],Category=Categories[2]},
         };
     }
 }

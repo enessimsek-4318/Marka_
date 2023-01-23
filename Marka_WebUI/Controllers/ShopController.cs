@@ -30,12 +30,16 @@ namespace Marka_WebUI.Controllers
             {
                 return NotFound();
             }
-            Product product=_productService.GetById(id.Value);
+            Product product=_productService.GetProductDetails(id.Value);
             if (product==null)
             {
                 return NotFound();
             }
-            return View(product);
+            return View(new ProductDetailsModel()
+            {
+                Product = product,
+                Categories = product.ProductCategories.Select(i => i.Category).ToList()
+            }) ;
         }
     }
 }

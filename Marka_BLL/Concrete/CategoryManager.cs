@@ -1,4 +1,5 @@
 ﻿using Marka_BLL.Abstract;
+using Marka_DAL.Abstract;
 using Marka_Entity;
 using System;
 using System.Collections.Generic;
@@ -11,40 +12,40 @@ namespace Marka_BLL.Concrete
 {
     public class CategoryManager : ICategoryService
     {
-        private ICategoryService _categoryService;
-        public CategoryManager(ICategoryService categoryService)
+        private ICategoryDal _categoryDal;
+        public CategoryManager(ICategoryDal categoryDal)
         {
-            _categoryService = categoryService;
+            _categoryDal = categoryDal;
         }
 
         public void Create(Category entity)
         {
-            _categoryService.Create(entity);
+            _categoryDal.Create(entity);
         }
 
         public void Delete(Category entity)
         {
-            _categoryService.Delete(entity);
+            _categoryDal.Delete(entity);
         }
 
         public Category Find(Expression<Func<Category, bool>> filter)
         {
-            return _categoryService.Find(filter);
+            return _categoryDal.Find(filter);
         }
 
-        public IEnumerable<Category> GetAll(Expression<Func<Category, bool>> filter = null)
+        public List<Category> GetAll(Expression<Func<Category, bool>> filter = null)
         {
-            return _categoryService.GetAll(filter);
+            return _categoryDal.GetAll();
         }
 
         public Category GetById(int id)
         {
-            return _categoryService.GetById(id);
+            return _categoryDal.GetById(id);
         }
 
         public void Update(Category entity)
         {
-            _categoryService.Update(entity);
+            _categoryDal.Update(entity);
         }
     }
 }

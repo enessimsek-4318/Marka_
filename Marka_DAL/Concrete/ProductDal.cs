@@ -21,11 +21,12 @@ namespace Marka_DAL.Concrete
                     :context.Products.Include("Images").Where(filter).ToList();
             }
         }
-        public new Product GetById(int id)
+
+        public Product GetProductDetails(int id)
         {
-            using (var context=new DataContext())
+            using (var context = new DataContext())
             {
-                return context.Products.Include(i => i.Images).FirstOrDefault(İ=> İ.Id==id);
+                return context.Products.Where(i => i.Id == id).Include("Images").Include(i => i.ProductCategories).ThenInclude(i => i.Category).FirstOrDefault();
             }
         }
     }

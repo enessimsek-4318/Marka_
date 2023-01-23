@@ -10,5 +10,6 @@ namespace Marka_DAL.Abstract
 {
     public interface IProductDal:IRepository<Product>
     {
+        Product GetProductDetails(int id);
     }
 }

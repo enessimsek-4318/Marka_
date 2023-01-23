@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Marka_DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230117133537_CreateDatabase")]
+    [Migration("20230120205350_CreateDatabase")]
     partial class CreateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

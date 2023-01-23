@@ -12,7 +12,7 @@ namespace Marka_BLL.Abstract
     {
         Category GetById(int id);
         Category Find(Expression<Func<Category, bool>> filter);
-        IEnumerable<Category> GetAll(Expression<Func<Category, bool>> filter = null);
+        List<Category> GetAll(Expression<Func<Category, bool>> filter = null);
         void Create(Category entity);
         void Update(Category entity);
         void Delete(Category entity);

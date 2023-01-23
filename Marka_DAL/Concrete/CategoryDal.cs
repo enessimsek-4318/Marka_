@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Marka_DAL.Concrete
 {
-    internal class CategoryDal : GenericRepository<Category,DataContext>,ICategoryDal
+    public class CategoryDal : GenericRepository<Category,DataContext>,ICategoryDal
     {
 
     }

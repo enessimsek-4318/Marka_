@@ -11,6 +11,7 @@ namespace Marka_BLL.Abstract
     public interface IProductService
     {
         Product GetById(int id);
+        Product GetProductDetails(int id);
         Product Find(Expression<Func<Product, bool>> filter);
         List<Product> GetAll(Expression<Func<Product, bool>> filter = null);
         void Create(Product entity);
