@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Marka_DAL.Concrete
 {
@@ -19,6 +20,22 @@ namespace Marka_DAL.Concrete
                 return filter==null
                     ?context.Products.Include(i=> i.Images).ToList()
                     :context.Products.Include("Images").Where(filter).ToList();
+            }
+        }
+
+        public int GetCountByCategory(string category)
+        {
+            using (var context=new DataContext())
+            {
+                var products = context.Products.AsQueryable();
+                if (!string.IsNullOrEmpty(category))
+                {
+                    products = products
+                        .Include(i => i.ProductCategories)
+                        .ThenInclude(i => i.Category)
+                        .Where(i => i.ProductCategories.Any(a => a.Category.Name.ToLower() == category.ToLower()));
+                };
+                return products.Count();
             }
         }
 
