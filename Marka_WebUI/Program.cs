@@ -40,6 +40,14 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
 });
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name:"products",
+        pattern:"products/{category?}",
+        defaults: new {controller="Shop",action="List"}
+        );
+});
 SeedDatabase.Seed();
 app.Run();
 

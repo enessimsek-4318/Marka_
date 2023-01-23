@@ -29,5 +29,20 @@ namespace Marka_DAL.Concrete
                 return context.Products.Where(i => i.Id == id).Include("Images").Include(i => i.ProductCategories).ThenInclude(i => i.Category).FirstOrDefault();
             }
         }
+
+        public List<Product> GetProductsByCategory(string category,int page,int pageSize)
+        {
+            using (var context = new DataContext())
+            {
+                var products = context.Products.Include("Images").AsQueryable();
+                if (!string.IsNullOrEmpty(category))
+                {
+                    products = products.Include(i => i.ProductCategories)
+                                     .ThenInclude(i => i.Category)
+                                     .Where(i => i.ProductCategories.Any(a => a.Category.Name.ToLower() == category.ToLower()));
+                }
+                return products.Skip((page-1)*pageSize).Take(pageSize).ToList();
+            }
+        }
     }
 }
