@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Marka_DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230120205350_CreateDatabase")]
+    [Migration("20230125175449_CreateDatabase")]
     partial class CreateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,7 +59,7 @@ namespace Marka_DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Image");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Marka_Entity.Product", b =>

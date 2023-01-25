@@ -99,7 +99,6 @@ namespace Marka_WebUI.Controllers
             entity.Description=model.Description;
             if (files != null)
             {
-                entity.Images.Clear();
                 foreach (var file in files)
                 {
                     Image image = new Image();
@@ -115,6 +114,20 @@ namespace Marka_WebUI.Controllers
                 }
             }
             _productService.Update(entity);
+            return RedirectToAction("ProductList");
+        }
+        [HttpPost]
+        public IActionResult DeleteProduct(int productId)
+        {
+            var entity= _productService.GetById(productId);
+            if (entity!=null)
+            {
+                _productService.Delete(entity);
+            }
+            else
+            {
+                return NotFound();
+            }
             return RedirectToAction("ProductList");
         }
     }

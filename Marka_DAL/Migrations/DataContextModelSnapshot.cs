@@ -57,7 +57,7 @@ namespace Marka_DAL.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Image");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Marka_Entity.Product", b =>

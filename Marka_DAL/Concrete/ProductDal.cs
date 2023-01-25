@@ -61,5 +61,21 @@ namespace Marka_DAL.Concrete
                 return products.Skip((page-1)*pageSize).Take(pageSize).ToList();
             }
         }
+        public new void Update(Product entity)
+        {
+            using (var context=new DataContext())
+            {
+                var product=context.Products.FirstOrDefault(i => i.Id == entity.Id);
+                if (product!=null)
+                {
+                    context.Images.RemoveRange(context.Images.Where(i => i.ProductId == entity.Id).ToList());
+                    product.Name = entity.Name;
+                    product.Description=entity.Description;
+                    product.Price=entity.Price;
+                    product.Images = entity.Images;
+                }
+                context.SaveChanges();
+            }
+        }
     }
 }
