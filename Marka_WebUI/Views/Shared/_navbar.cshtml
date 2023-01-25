@@ -22,10 +22,10 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Cart</a></li>
                         <li><a class="dropdown-item" href="#">Orders</a></li>
-                        <li><a class="dropdown-item" href="#">Add Product</a></li>
-                        <li><a class="dropdown-item" href="#">Admin Products</a></li>
-                        <li><a class="dropdown-item" href="#">Add Category</a></li>
-                        <li><a class="dropdown-item" href="#">Admin Categories</a></li>
+                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="CreateProduct">Add Product</a></li>
+                        <li><a class="dropdown-item" href="/admin/products">Admin Products</a></li>
+                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="CrateCategory">Add Category</a></li>
+                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="CategoryList">Admin Categories</a></li>
                     </ul>
                 </li>
             </ul>
