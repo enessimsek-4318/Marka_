@@ -8,9 +8,11 @@ namespace Marka_WebUI.Controllers
     public class AdminController : Controller
     {
         private IProductService _productService;
-        public AdminController(IProductService productService)
+        private ICategoryService _categoryService;
+        public AdminController(IProductService productService, ICategoryService categoryService)
         {
             _productService = productService;
+            _categoryService = categoryService;
         }
         public IActionResult Index()
         {
@@ -129,6 +131,37 @@ namespace Marka_WebUI.Controllers
                 return NotFound();
             }
             return RedirectToAction("ProductList");
+        }
+        public IActionResult CategoryList()
+        {
+            return View(new CategoryListModel()
+            {
+                Categories=_categoryService.GetAll()
+            });
+        }
+        public IActionResult CreateCategory()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateCategory(CategoryModel model)
+        {
+            var entity=new Category()
+            {
+                Name=model.CategoryName,
+            };
+            _categoryService.Create(entity);
+            return RedirectToAction("CategoryList");
+        }
+        public IActionResult EditCategory(int categoryid)
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult EditCategory(CategoryModel model)
+        {
+            return View();
         }
     }
 }
