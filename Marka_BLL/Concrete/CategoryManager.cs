@@ -43,6 +43,11 @@ namespace Marka_BLL.Concrete
             return _categoryDal.GetById(id);
         }
 
+        public Category GetByIdWithProducts(int id)
+        {
+            return _categoryDal.GetByIdWithProducts(id);
+        }
+
         public void Update(Category entity)
         {
             _categoryDal.Update(entity);

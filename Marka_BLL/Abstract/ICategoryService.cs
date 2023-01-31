@@ -11,6 +11,7 @@ namespace Marka_BLL.Abstract
     public interface ICategoryService
     {
         Category GetById(int id);
+        Category GetByIdWithProducts(int id);
         Category Find(Expression<Func<Category, bool>> filter);
         List<Category> GetAll(Expression<Func<Category, bool>> filter = null);
         void Create(Category entity);

@@ -10,6 +10,6 @@ namespace Marka_DAL.Abstract
 {
     public interface ICategoryDal:IRepository<Category>
     {
-
+        Category GetByIdWithProducts(int id);
     }
 }

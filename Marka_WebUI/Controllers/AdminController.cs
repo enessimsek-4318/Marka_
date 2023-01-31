@@ -153,15 +153,46 @@ namespace Marka_WebUI.Controllers
             _categoryService.Create(entity);
             return RedirectToAction("CategoryList");
         }
-        public IActionResult EditCategory(int categoryid)
+        public IActionResult EditCategory(int id)
         {
-
+            var entity = _categoryService.GetByIdWithProducts(id);
+            if (entity!=null)
+            {
+                return View(new CategoryModel()
+                {
+                    Id = entity.Id,
+                    CategoryName = entity.Name,
+                    Products = entity.ProductCategories.Select(i => i.Product).ToList()
+                });
+            }
+            else
+            {
+                return NotFound();
+            }
             return View();
         }
         [HttpPost]
         public IActionResult EditCategory(CategoryModel model)
         {
-            return View();
+            var entity=_categoryService.GetById(model.Id);
+            if (entity==null)
+            {
+                return NotFound();
+            }
+            entity.Name = model.CategoryName;
+            _categoryService.Update(entity);
+            return RedirectToAction("CategoryList");
+        }
+        [HttpPost]
+        public IActionResult DeleteCategory(int id)
+        {
+            var entity = _categoryService.GetById(id);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+            _categoryService.Delete(entity);
+            return RedirectToAction("CategoryList");
         }
     }
 }

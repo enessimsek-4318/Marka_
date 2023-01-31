@@ -43,10 +43,10 @@ app.UseEndpoints(endpoints =>
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
-        name:"products",
-        pattern:"products/{category?}",
-        defaults: new {controller="Shop",action="List"}
-        );
+        name: "products",
+        pattern: "products/{category?}",
+        defaults: new { controller = "Shop", action = "List" }
+    );
     endpoints.MapControllerRoute(
         name: "adminProducts",
         pattern: "admin/products",
@@ -56,7 +56,12 @@ app.UseEndpoints(endpoints =>
         name: "adminProducts",
         pattern: "admin/products/{id?}",
         defaults: new { controller = "Admin", action = "EditProduct" }
-);
+    );
+    endpoints.MapControllerRoute(
+        name: "adminCategories",
+        pattern: "admin/categories/{id?}",
+        defaults: new { controller = "Admin", action = "EditCategory" }
+    );
 });
 SeedDatabase.Seed();
 app.Run();
