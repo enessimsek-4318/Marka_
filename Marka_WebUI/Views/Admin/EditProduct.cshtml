@@ -24,8 +24,8 @@
                         <div class="mb-3 col-md-9 offset-md-3">
                             <label asp-for="@Image.ImageUrl" class="form-label"></label>
                             <input type="hidden" name="ImageUrl" value="@Image.ImageUrl">
-                            <img src="~/img/@Image.ImageUrl" width="80">
-                            <input type="file" name="files" value="" />
+                            <img src="~/img/@Image.ImageUrl" width="80" id="imgPreview">
+                            <input type="file" name="files" value="" id="fileImage" />
                         </div>
                     }
 
@@ -66,3 +66,11 @@
     </div>
 </div>
 </form>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#fileImage").change(function(e){
+            $("#imgPreview").show()
+            $("#imgPreview").attr('src',URL.createObjectURL(e.target.files[0]))
+        })
+    })
+</script>
