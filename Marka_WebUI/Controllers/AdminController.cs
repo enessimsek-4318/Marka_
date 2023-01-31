@@ -73,7 +73,7 @@ namespace Marka_WebUI.Controllers
             {
                 return NotFound();
             }
-            var product = _productService.GetProductDetails(id);
+            var product = _productService.GetByIdWithCategories(id);
             if (product == null)
             {
                 return BadRequest();
@@ -84,12 +84,14 @@ namespace Marka_WebUI.Controllers
                 Price = product.Price,
                 Description = product.Description,
                 Images = product.Images,
-                Id = product.Id
+                Id = product.Id,
+                SelectedCategories=product.ProductCategories.Select(i=>i.Category).ToList()
             };
+            ViewBag.Categories=_categoryService.GetAll();
             return View(entity);
         }
         [HttpPost]
-        public async Task<IActionResult> EditProduct(ProductModel model,List<IFormFile> files)
+        public async Task<IActionResult> EditProduct(ProductModel model,List<IFormFile> files, int[] categoryIds)
         {
             var entity = _productService.GetById(model.Id);
             if (entity == null)
@@ -115,7 +117,7 @@ namespace Marka_WebUI.Controllers
                     }
                 }
             }
-            _productService.Update(entity);
+            _productService.Update(entity,categoryIds);
             return RedirectToAction("ProductList");
         }
         [HttpPost]

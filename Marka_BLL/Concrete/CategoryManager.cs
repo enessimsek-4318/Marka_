@@ -28,6 +28,11 @@ namespace Marka_BLL.Concrete
             _categoryDal.Delete(entity);
         }
 
+        public void DeleteFromCategory(int categoryId, int productId)
+        {
+            _categoryDal.DeleteFromCategory(categoryId, productId);
+        }
+
         public Category Find(Expression<Func<Category, bool>> filter)
         {
             return _categoryDal.Find(filter);

@@ -13,5 +13,6 @@ namespace Marka_WebUI.Models
         [Required]
         public string Description { get; set; }
         public List<Image> Images { get; set; }
+        public List<Category> SelectedCategories { get; set; }
     }
 }

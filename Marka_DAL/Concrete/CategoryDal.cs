@@ -12,6 +12,15 @@ namespace Marka_DAL.Concrete
 {
     public class CategoryDal : GenericRepository<Category, DataContext>, ICategoryDal
     {
+        public void DeleteFromCategory(int categoryId, int productId)
+        {
+            using (var context=new DataContext())
+            {
+                var cmd = @"delete from ProductCategory where ProductId=@p0 and CategoryId=@p1";
+                context.Database.ExecuteSqlRaw(cmd, productId, categoryId);
+            }
+        }
+
         public Category GetByIdWithProducts(int id)
         {
             using (var context = new DataContext())

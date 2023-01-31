@@ -23,6 +23,19 @@ namespace Marka_DAL.Concrete
             }
         }
 
+        public Product GetByIdWithCategories(int id)
+        {
+            using (var context=new DataContext())
+            {
+                return context.Products
+                    .Where(i => i.Id == id)
+                    .Include(i=>i.Images)
+                    .Include(i => i.ProductCategories)
+                    .ThenInclude(i => i.Category)
+                    .FirstOrDefault();
+            }
+        }
+
         public int GetCountByCategory(string category)
         {
             using (var context=new DataContext())
@@ -61,11 +74,11 @@ namespace Marka_DAL.Concrete
                 return products.Skip((page-1)*pageSize).Take(pageSize).ToList();
             }
         }
-        public new void Update(Product entity)
+        public new void Update(Product entity, int[] categoryIds)
         {
             using (var context=new DataContext())
             {
-                var product=context.Products.FirstOrDefault(i => i.Id == entity.Id);
+                var product=context.Products.Include(i=> i.ProductCategories).FirstOrDefault(i => i.Id == entity.Id);
                 if (product!=null)
                 {
                     context.Images.RemoveRange(context.Images.Where(i => i.ProductId == entity.Id).ToList());
@@ -73,6 +86,11 @@ namespace Marka_DAL.Concrete
                     product.Description=entity.Description;
                     product.Price=entity.Price;
                     product.Images = entity.Images;
+                    product.ProductCategories=categoryIds.Select(i=>new ProductCategory()
+                    {
+                        CategoryId=i,
+                        ProductId=entity.Id,
+                    }).ToList();
                 }
                 context.SaveChanges();
             }
