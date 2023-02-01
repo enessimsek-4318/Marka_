@@ -16,22 +16,28 @@ namespace Marka_WebUI.Controllers
         }
         public IActionResult Register()
         {
-            return View();
+            return View(new RegisterModel());
         }
         [HttpPost]
-        public IActionResult Register(RegisterModel model)
+        public async Task<IActionResult> Register(RegisterModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            var user=new ApplicationUser()
+            var user = new ApplicationUser()
             {
-                FullName=model.FullName,
-                Email=model.Email,
-                UserName=model.UserName,
+                FullName = model.FullName,
+                Email = model.Email,
+                UserName = model.UserName,
+            };
+            var result = await _userManager.CreateAsync(user,model.Password);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("login", "Account");
             }
-            return View();
+            ModelState.AddModelError("", "Kayıt Esnasında Bilinmeyen Bir Hata Oluştu!!");
+            return View(model);
         }
     }
 }

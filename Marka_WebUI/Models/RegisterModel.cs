@@ -13,6 +13,8 @@ namespace Marka_WebUI.Models
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
         [Compare("Password")]
         public string RePassword { get; set; }
         [Required]

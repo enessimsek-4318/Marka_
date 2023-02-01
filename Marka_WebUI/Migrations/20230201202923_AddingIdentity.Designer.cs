@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Marka_WebUI.Migrations
 {
     [DbContext(typeof(ApplicationIdentityDbContext))]
-    [Migration("20230201112245_AddingIdentity")]
+    [Migration("20230201202923_AddingIdentity")]
     partial class AddingIdentity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,10 @@ namespace Marka_WebUI.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
