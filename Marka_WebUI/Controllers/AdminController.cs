@@ -1,10 +1,12 @@
 ﻿using Marka_BLL.Abstract;
 using Marka_Entity;
 using Marka_WebUI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Marka_WebUI.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private IProductService _productService;
