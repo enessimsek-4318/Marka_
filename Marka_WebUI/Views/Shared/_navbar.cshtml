@@ -1,47 +1,64 @@
 ﻿<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid container">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" asp-controller="Home" asp-action="Index">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Home"asp-action="Contact">Contact</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Shop" asp-action="List">Products</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Other
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Cart</a></li>
-                        <li><a class="dropdown-item" href="#">Orders</a></li>
-                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="CreateProduct">Add Product</a></li>
-                        <li><a class="dropdown-item" href="/admin/products">Admin Products</a></li>
-                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="CreateCategory">Add Category</a></li>
-                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="CategoryList">Admin Categories</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/Account/Register">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Logout</a>
-                </li>
-            <ul/>
-              
-            </ul>
-        </div>
-    </div>
+	<div class="container-fluid container">
+		<a class="navbar-brand" href="#">Enes Şimşek</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item">
+					<a class="nav-link" aria-current="page" asp-controller="Home" asp-action="Index">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" asp-controller="Home" asp-action="Contact">Contact</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" asp-controller="Shop" asp-action="List">Products</a>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Other
+					</a>
+					<ul class="dropdown-menu">
+						@if (User.Identity.IsAuthenticated)
+						{
+							<li><a class="dropdown-item" href="#">Cart</a></li>
+							<li><a class="dropdown-item" href="#">Orders</a></li>
+							<li><a class="dropdown-item" asp-controller="Admin" asp-action="CreateProduct">Add Product</a></li>
+							<li><a class="dropdown-item" asp-controller="Admin" asp-action="Products">Admin Products</a></li>
+							<li><a class="dropdown-item" asp-controller="Admin" asp-action="CreateCategory">Add Category</a></li>
+							<li><a class="dropdown-item" asp-controller="Admin" asp-action="CategoryList">Admin Categories</a></li>
+						}
+						else
+						{
+							<li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Please Login</a></li>
+						}
+					</ul>
+				</li>
+			</ul>
+			<ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+
+				@if (User.Identity.IsAuthenticated)
+				{
+					<li class="nav-item">
+						<a class="nav-link" href="/account/Manage">@User.Identity.Name</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
+					</li>
+				}
+				else
+				{
+					<li class="nav-item">
+						<a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+					</li>
+				}
+				<ul />
+
+			</ul>
+		</div>
+	</div>
 </nav>

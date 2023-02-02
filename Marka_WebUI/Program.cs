@@ -35,7 +35,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 
     options.User.RequireUniqueEmail = true;
     options.SignIn.RequireConfirmedPhoneNumber = false;
-    options.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedEmail = true;
 });
 
 builder.Services.ConfigureApplicationCookie(options =>
@@ -90,23 +90,22 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute(
         name: "products",
         pattern: "products/{category?}",
-        defaults: new { controller = "Shop", action = "List" }
-    );
+        defaults: new { controller = "Shop", action = "List" });
+
     endpoints.MapControllerRoute(
         name: "adminProducts",
         pattern: "admin/products",
-        defaults: new { controller = "Admin", action = "ProductList" }
-    );
+        defaults: new { controller = "Admin", action = "ProductList" });
+
     endpoints.MapControllerRoute(
         name: "adminProducts",
         pattern: "admin/products/{id?}",
-        defaults: new { controller = "Admin", action = "EditProduct" }
-    );
+        defaults: new { controller = "Admin", action = "EditProduct" });
+
     endpoints.MapControllerRoute(
-        name: "adminCategories",
-        pattern: "admin/categories/{id?}",
-        defaults: new { controller = "Admin", action = "EditCategory" }
-    );
+       name: "adminCategories",
+       pattern: "admin/categories/{id?}",
+       defaults: new { controller = "Admin", action = "EditCategory" });
 });
 SeedDatabase.Seed();
 app.Run();
