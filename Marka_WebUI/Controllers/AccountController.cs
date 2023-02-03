@@ -1,4 +1,5 @@
-﻿using Marka_WebUI.Identity;
+﻿using Marka_WebUI.EmailServices;
+using Marka_WebUI.Identity;
 using Marka_WebUI.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +36,32 @@ namespace Marka_WebUI.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction("login", "Account");
+                //generate token
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                var callbackUrl = Url.Action("ConfirmEmail", "Account", new
+                {
+                    userId = user.Id,
+                    token = code
+                });
+
+                //send email
+                string siteUrl = "https://localhost:7232";
+                string activateUrl = $"{siteUrl}{callbackUrl}";
+                string body = $"Merhaba {model.UserName};<br><br>Hesabınızı aktifleştirmek için <a href='{activateUrl}' target='_blank'> tıklayınız</a>.";
+
+                MailHelper.SendEmail(body, model.Email, "Marka User Activition");
+
+
+
+                //TempData.Put("message", new ResultMessage()
+                //{
+                //    Title = "Hesap Onayı",
+                //    Message = "Email adresinize gelen link ile hesabınızı onaylayınız",
+                //    Css = "warning"
+                //});
+                return RedirectToAction("login", "account");
+
             }
             ModelState.AddModelError("", "Kayıt Esnasında Bilinmeyen Bir Hata Oluştu!!");
             return View(model);
@@ -61,6 +87,11 @@ namespace Marka_WebUI.Controllers
                 ModelState.AddModelError("", "Kullanıcı Bulunamadı.");
                 return View(model);
             }
+            if (!await _userManager.IsEmailConfirmedAsync(user))
+            {
+                ModelState.AddModelError("", "Lütfen Hesabınızı email ile aktivasyonunu gerçekleştiriniz.");
+                return View(model);
+            }
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
             if (result.Succeeded)
             {
@@ -73,6 +104,26 @@ namespace Marka_WebUI.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index","Home");
+        }
+        public async Task<IActionResult> ConfirmEmail(string userId,string token)
+        {
+            if (userId==null || token == null)
+            {
+                TempData["message"] = "Kullanıcı Adı veya Token Geçersiz";
+                return View();
+            }
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user!=null)
+            {
+                var result = await _userManager.ConfirmEmailAsync(user, token);
+                if (result.Succeeded)
+                {
+                    TempData["message"] = "Hoşgeldiniz,Hesabınız Onaylandı.";
+                    return View();
+                }
+            }
+            TempData["message"] = "Üzgünüz Hesabınız Onaylanmadı.";
+            return View();
         }
     }
 }
