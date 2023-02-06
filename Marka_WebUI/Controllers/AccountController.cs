@@ -66,17 +66,13 @@ namespace Marka_WebUI.Controllers
             ModelState.AddModelError("", "Kayıt Esnasında Bilinmeyen Bir Hata Oluştu!!");
             return View(model);
         }
-        public IActionResult Login(string ReturnUrl = null)
+        public IActionResult Login()
         {
-            return View(new LoginModel()
-            {
-                ReturnUrl = ReturnUrl
-            });
+            return View(new LoginModel());
         }
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel model)
-        {
-            ModelState.Remove("ReturnUrl");
+        {            
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -95,7 +91,7 @@ namespace Marka_WebUI.Controllers
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
             if (result.Succeeded)
             {
-                return Redirect(model.ReturnUrl ?? "~/");
+                return RedirectToAction("Index","Home");
             }
             ModelState.AddModelError("", "Email veya Parola yanlış.");
             return View();
@@ -103,17 +99,17 @@ namespace Marka_WebUI.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
-        public async Task<IActionResult> ConfirmEmail(string userId,string token)
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
-            if (userId==null || token == null)
+            if (userId == null || token == null)
             {
                 TempData["message"] = "Kullanıcı Adı veya Token Geçersiz";
                 return View();
             }
             var user = await _userManager.FindByIdAsync(userId);
-            if (user!=null)
+            if (user != null)
             {
                 var result = await _userManager.ConfirmEmailAsync(user, token);
                 if (result.Succeeded)
@@ -124,6 +120,62 @@ namespace Marka_WebUI.Controllers
             }
             TempData["message"] = "Üzgünüz Hesabınız Onaylanmadı.";
             return View();
+        }
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return View();
+            }
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return View();
+            }
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var callbackUrl = Url.Action("ResetPassword", "Account", new
+            {
+                token = code
+            });
+            string siteUrl = "https://localhost:7232";
+            string body = $"Merhabalar, Parolanızı Yenilemek için  <a href='{siteUrl}{callbackUrl}'> tıklayınız</a>.";
+
+            MailHelper.SendEmail(body, email, "Marka Password Reset");
+            return RedirectToAction("login","account");
+        }
+        public IActionResult ResetPassword(string token)
+        {
+            if (token!=null)
+            {
+                var model = new ResetPasswordModel() { Token = token };
+                return View(model);
+            }
+            return RedirectToAction("Index","Home");
+        }
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user!=null)
+                {
+                    var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Login", "Account");
+                    }
+                    return View(model);
+                }
+                ModelState.AddModelError("", "Kullanıcı Bulunamadı.");
+                return RedirectToAction("Index","Home");
+            }  
+            return View(model);
         }
     }
 }
