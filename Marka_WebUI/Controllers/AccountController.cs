@@ -1,4 +1,5 @@
 ﻿using Marka_WebUI.EmailServices;
+using Marka_WebUI.Extensions;
 using Marka_WebUI.Identity;
 using Marka_WebUI.Models;
 using Microsoft.AspNetCore.Identity;
@@ -52,14 +53,12 @@ namespace Marka_WebUI.Controllers
 
                 MailHelper.SendEmail(body, model.Email, "Marka User Activition");
 
-
-
-                //TempData.Put("message", new ResultMessage()
-                //{
-                //    Title = "Hesap Onayı",
-                //    Message = "Email adresinize gelen link ile hesabınızı onaylayınız",
-                //    Css = "warning"
-                //});
+                TempData.Put("message", new ResultMessage()
+                {
+                    Title = "Hesap Onayı",
+                    Message = "Email adresinize gelen link ile hesabınızı onaylayınız",
+                    Css = "warning"
+                });
                 return RedirectToAction("login", "account");
 
             }
@@ -99,6 +98,12 @@ namespace Marka_WebUI.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
+            TempData.Put("message", new ResultMessage()
+            {
+                Title = "Oturum Kapatıldı",
+                Message = "Hesabınızdan Güvenli Bir Şekilde Çıkış Yapılmıştır.",
+                Css = "warning"
+            });
             return RedirectToAction("Index", "Home");
         }
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
@@ -173,7 +178,7 @@ namespace Marka_WebUI.Controllers
                     return View(model);
                 }
                 ModelState.AddModelError("", "Kullanıcı Bulunamadı.");
-                return RedirectToAction("Index","Home");
+                return View(model);
             }  
             return View(model);
         }
