@@ -24,10 +24,14 @@
 						{
 							<li><a class="dropdown-item" href="#">Cart</a></li>
 							<li><a class="dropdown-item" href="#">Orders</a></li>
+							if (User.IsInRole("admin"))
+							{
 							<li><a class="dropdown-item" asp-controller="Admin" asp-action="CreateProduct">Add Product</a></li>
 							<li><a class="dropdown-item" asp-controller="Admin" asp-action="Products">Admin Products</a></li>
 							<li><a class="dropdown-item" asp-controller="Admin" asp-action="CreateCategory">Add Category</a></li>
 							<li><a class="dropdown-item" asp-controller="Admin" asp-action="CategoryList">Admin Categories</a></li>
+							<li><a class="dropdown-item" asp-controller="Admin" asp-action="UserList">User List</a></li>
+							}							
 						}
 						else
 						{

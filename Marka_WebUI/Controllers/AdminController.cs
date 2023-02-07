@@ -1,20 +1,28 @@
 ﻿using Marka_BLL.Abstract;
 using Marka_Entity;
+using Marka_WebUI.Identity;
 using Marka_WebUI.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Marka_WebUI.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="admin")]
     public class AdminController : Controller
     {
         private IProductService _productService;
         private ICategoryService _categoryService;
-        public AdminController(IProductService productService, ICategoryService categoryService)
+        private UserManager<ApplicationUser> _userManager;
+        private RoleManager<IdentityRole> _roleManager;
+        public AdminController(IProductService productService, ICategoryService categoryService,
+            UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _productService = productService;
             _categoryService = categoryService;
+            _userManager = userManager;
+            _roleManager = roleManager; 
+
         }
         public IActionResult Index()
         {
@@ -197,6 +205,73 @@ namespace Marka_WebUI.Controllers
             }
             _categoryService.Delete(entity);
             return RedirectToAction("CategoryList");
+        }
+        public async Task<IActionResult> UserList()
+        {
+            List<ApplicationUser> userList=_userManager.Users.ToList();
+            List<AdminUserModel> adminList = new List<AdminUserModel>();
+            foreach (ApplicationUser item in userList)
+            {
+                AdminUserModel user = new AdminUserModel();
+                user.UserName = item.UserName;
+                user.FullName=item.FullName;
+                user.Email=item.Email;
+                user.EmailConfirmed = item.EmailConfirmed;
+                user.IsAdmin = await _userManager.IsInRoleAsync(item, "admin");
+                adminList.Add(user);
+            }
+            return View(adminList);
+        }
+        public async Task<IActionResult> UserEdit(string Email)
+        {
+            ApplicationUser entity = await _userManager.FindByEmailAsync(Email);
+            if (entity!=null)
+            {
+                AdminUserModel user = new AdminUserModel();
+                user.UserName = entity.UserName;
+                user.FullName = entity.FullName;
+                user.Email = entity.Email;
+                user.EmailConfirmed = entity.EmailConfirmed;
+                user.IsAdmin = await _userManager.IsInRoleAsync(entity, "admin");
+                return View(user);
+            }
+            ModelState.AddModelError("", "Belirtmiş Olduğunuz Email İle Daha Önce Hesap Oluşturulmamıştır.");
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> UserEdit(AdminUserModel model)
+        {
+            ApplicationUser entity =await _userManager.FindByEmailAsync(model.Email);
+            if (entity!=null)
+            {
+                entity.Email = model.Email;
+                entity.EmailConfirmed = model.EmailConfirmed;
+                entity.FullName = model.FullName;
+                if (model.IsAdmin)
+                {
+                    await _userManager.AddToRoleAsync(entity, "admin");
+                }
+                else
+                {
+                    await _userManager.RemoveFromRoleAsync(entity, "admin");
+                }
+                await _userManager.UpdateAsync(entity);
+                return RedirectToAction("UserList","Admin");                 
+            }
+            ModelState.AddModelError("", "Belirtmiş Olduğunuz Email İle Hesap Oluşturulmamıştır.");
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> UserDelete(string Email)
+        {
+            ApplicationUser entity = await _userManager.FindByEmailAsync(Email);
+            if (entity!=null)
+            {
+                await _userManager.DeleteAsync(entity);
+                return RedirectToAction("UserList", "Admin");
+            }
+            ModelState.AddModelError("", "Kullanıcı Silme İşlemi Başarısız Olmuştur.");
+            return View(entity);
         }
     }
 }

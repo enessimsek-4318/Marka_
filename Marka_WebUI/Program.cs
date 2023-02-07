@@ -19,6 +19,9 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnecti
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationIdentityDbContext>()
     .AddDefaultTokenProviders();
+
+var userManager=builder.Services.BuildServiceProvider().GetService<UserManager<ApplicationUser>>();
+var roleManager = builder.Services.BuildServiceProvider().GetService<RoleManager<IdentityRole>>();
 builder.Services.Configure<IdentityOptions>(options =>
 {
     //password
@@ -108,5 +111,6 @@ app.UseEndpoints(endpoints =>
        defaults: new { controller = "Admin", action = "EditCategory" });
 });
 SeedDatabase.Seed();
+SeedIdentity.Seed(userManager,roleManager, app.Configuration).Wait();
 app.Run();
 

@@ -4,6 +4,7 @@ using Marka_WebUI.Identity;
 using Marka_WebUI.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient.Server;
 
 namespace Marka_WebUI.Controllers
 {
@@ -110,8 +111,13 @@ namespace Marka_WebUI.Controllers
         {
             if (userId == null || token == null)
             {
-                TempData["message"] = "Kullanıcı Adı veya Token Geçersiz";
-                return View();
+                TempData.Put("message", new ResultMessage()
+                {
+                    Title = "Hesap Onayı",
+                    Message = "Hesap Onayı İçin Bilgileriniz Yanlıştır.",
+                    Css = "danger"
+                });
+                return Redirect("~/");
             }
             var user = await _userManager.FindByIdAsync(userId);
             if (user != null)
@@ -119,11 +125,21 @@ namespace Marka_WebUI.Controllers
                 var result = await _userManager.ConfirmEmailAsync(user, token);
                 if (result.Succeeded)
                 {
-                    TempData["message"] = "Hoşgeldiniz,Hesabınız Onaylandı.";
-                    return View();
+                    TempData.Put("message", new ResultMessage()
+                    {
+                        Title = "Hesap Onayı",
+                        Message = $"Hoşgeldiniz Sayın {user.FullName}, Hesabınız Onaylanmıştır.",
+                        Css = "success"
+                    });
+                    return RedirectToAction("Login","Account");
                 }
             }
-            TempData["message"] = "Üzgünüz Hesabınız Onaylanmadı.";
+            TempData.Put("message", new ResultMessage()
+            {
+                Title = "Hesap Onayı",
+                Message = "Üzgünüz Hesabınızın Aktivasyonu Gerçekleştirilemedi.",
+                Css = "danger"
+            });
             return View();
         }
         public IActionResult ForgotPassword()
@@ -135,11 +151,23 @@ namespace Marka_WebUI.Controllers
         {
             if (string.IsNullOrEmpty(email))
             {
+                TempData.Put("message", new ResultMessage()
+                {
+                    Title = "Forgot Password",
+                    Message = "Bilgileriniz Hatalıdır.",
+                    Css = "danger"
+                });
                 return View();
             }
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
+                TempData.Put("message", new ResultMessage()
+                {
+                    Title = "Forgot Password",
+                    Message = "Belirtmiş Olduğunuz Email Adresine Tanımlı Kullanıcı Bulunamadı.",
+                    Css = "danger"
+                });
                 return View();
             }
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -151,6 +179,12 @@ namespace Marka_WebUI.Controllers
             string body = $"Merhabalar, Parolanızı Yenilemek için  <a href='{siteUrl}{callbackUrl}'> tıklayınız</a>.";
 
             MailHelper.SendEmail(body, email, "Marka Password Reset");
+            TempData.Put("message", new ResultMessage()
+            {
+                Title = "Forgot Password",
+                Message = "Parola Yenilemek İçin Hesabınıza Email Gönderilmiştir.",
+                Css = "warning"
+            });
             return RedirectToAction("login","account");
         }
         public IActionResult ResetPassword(string token)
@@ -173,6 +207,12 @@ namespace Marka_WebUI.Controllers
                     var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
                     if (result.Succeeded)
                     {
+                        TempData.Put("message", new ResultMessage()
+                        {
+                            Title = "Forgot Password",
+                            Message = "Parolanız Başarı İle Yenilenmiştir.",
+                            Css = "success"
+                        });
                         return RedirectToAction("Login", "Account");
                     }
                     return View(model);
@@ -182,5 +222,10 @@ namespace Marka_WebUI.Controllers
             }  
             return View(model);
         }
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }
+ 
