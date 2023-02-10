@@ -56,7 +56,13 @@ namespace Marka_DAL.Concrete
         {
             using (var context = new DataContext())
             {
-                return context.Products.Where(i => i.Id == id).Include("Images").Include(i => i.ProductCategories).ThenInclude(i => i.Category).FirstOrDefault();
+                return context.Products
+                    .Where(i => i.Id == id)
+                    .Include("Images")
+                    .Include("Comments")
+                    .Include(i => i.ProductCategories)
+                    .ThenInclude(i => i.Category)
+                    .FirstOrDefault();
             }
         }
 

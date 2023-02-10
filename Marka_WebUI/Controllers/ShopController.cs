@@ -47,7 +47,8 @@ namespace Marka_WebUI.Controllers
             return View(new ProductDetailsModel()
             {
                 Product = product,
-                Categories = product.ProductCategories.Select(i => i.Category).ToList()
+                Categories = product.ProductCategories.Select(i => i.Category).ToList(),
+                Comments =product.Comments
             }) ;
         }
     }
