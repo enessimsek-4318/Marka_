@@ -52,14 +52,12 @@ namespace Marka_WebUI.Controllers
                     comments.Add(cmd);
                 }
             }
-
-
-
             return PartialView("_PartialComments", comments);
         }
 
         [Authorize]
         public IActionResult Edit(int? id, string text)
+        
         {
             if (id == null)
             {
