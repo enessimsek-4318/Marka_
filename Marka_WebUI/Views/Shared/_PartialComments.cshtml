@@ -40,7 +40,7 @@
 {
     <div class="d-flex">
         <div class="flex-grow-1 ms-12">
-            <h6 class="col-md-12">@item.Username <small class="text-muted"><i>@item.CreateOn.ToString("dddd,dd MMMM yyyy")</i></small></h6>
+            <h6 class="col-md-12">@item.UserName <small class="text-muted"><i>@item.CreateOn.ToString("dddd,dd MMMM yyyy")</i></small></h6>
             <span class="col-md-10" id="comment_text_@item.Id" contenteditable="false">
                 @item.Text
             </span>
@@ -56,6 +56,5 @@
                 </span>
             }
         </div>
-
     </div>
 }

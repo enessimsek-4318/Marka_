@@ -46,7 +46,7 @@ namespace Marka_WebUI.Controllers
 
                     var user = await _userManager.FindByIdAsync(item.UserId);
 
-                    cmd.Username = user.UserName;
+                    cmd.UserName = user.UserName;
                     cmd.UserId = user.Id;
 
                     comments.Add(cmd);
@@ -57,7 +57,7 @@ namespace Marka_WebUI.Controllers
 
         [Authorize]
         public IActionResult Edit(int? id, string text)
-        
+
         {
             if (id == null)
             {
@@ -102,34 +102,28 @@ namespace Marka_WebUI.Controllers
         [HttpPost]
         public IActionResult Create(int? productid, CommentModel model)
         {
-            ModelState.Remove("Username");
-            ModelState.Remove("Product");
-            if (ModelState.IsValid)
+            if (productid == null)
             {
-                if (productid == null)
-                {
-                    return BadRequest();
-                }
-
-                Product product = _productService.GetById(productid.Value);
-
-                if (product == null)
-                {
-                    return NotFound();
-                }
-
-                Comment comment = new Comment();
-                comment.Text = model.Text;
-                comment.ProductId = product.Id;
-                comment.UserId = _userManager.GetUserId(User);
-                comment.CreateOn = DateTime.Now;
-
-                _commentService.Create(comment);
-
-                return Json(new { result = true });
+                return BadRequest();
             }
 
-            return View(model);
+            Product product = _productService.GetById(productid.Value);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            Comment comment = new Comment();
+            comment.Text = model.Text;
+            comment.ProductId = product.Id;
+            comment.UserId = _userManager.GetUserId(User);
+            comment.CreateOn = DateTime.Now;
+
+            _commentService.Create(comment);
+
+            return Json(new { result = true });
+
         }
     }
 }
