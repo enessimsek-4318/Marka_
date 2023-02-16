@@ -42,13 +42,9 @@ namespace Marka_WebUI.Controllers
                     cmd.Text = item.Text;
                     cmd.Product = item.Product;
                     cmd.CreateOn = item.CreateOn;
-
-
                     var user = await _userManager.FindByIdAsync(item.UserId);
-
                     cmd.UserName = user.UserName;
                     cmd.UserId = user.Id;
-
                     comments.Add(cmd);
                 }
             }
