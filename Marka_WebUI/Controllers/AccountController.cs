@@ -1,4 +1,5 @@
-﻿using Marka_WebUI.EmailServices;
+﻿using Marka_BLL.Abstract;
+using Marka_WebUI.EmailServices;
 using Marka_WebUI.Extensions;
 using Marka_WebUI.Identity;
 using Marka_WebUI.Models;
@@ -13,10 +14,12 @@ namespace Marka_WebUI.Controllers
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private ICartService _cartService;
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,ICartService cartService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _cartService = cartService;
         }
         public IActionResult Register()
         {
@@ -125,6 +128,7 @@ namespace Marka_WebUI.Controllers
                 var result = await _userManager.ConfirmEmailAsync(user, token);
                 if (result.Succeeded)
                 {
+                    _cartService.InitializeCart(user.Id);
                     TempData.Put("message", new ResultMessage()
                     {
                         Title = "Hesap Onayı",
