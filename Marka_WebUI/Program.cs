@@ -20,7 +20,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationIdentityDbContext>()
     .AddDefaultTokenProviders();
 
-var userManager=builder.Services.BuildServiceProvider().GetService<UserManager<ApplicationUser>>();
+var userManager = builder.Services.BuildServiceProvider().GetService<UserManager<ApplicationUser>>();
 var roleManager = builder.Services.BuildServiceProvider().GetService<RoleManager<IdentityRole>>();
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -46,7 +46,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/account/login";
     options.LogoutPath = "/account/logout";
     options.AccessDeniedPath = "/account/accessDenied";
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(60); 
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
     options.SlidingExpiration = true;
     options.Cookie = new CookieBuilder
     {
@@ -113,8 +113,13 @@ app.UseEndpoints(endpoints =>
        name: "adminCategories",
        pattern: "admin/categories/{id?}",
        defaults: new { controller = "Admin", action = "EditCategory" });
+
+    endpoints.MapControllerRoute(
+       name: "cart",
+       pattern: "cart",
+       defaults: new { controller = "Cart", action = "Index" });
 });
 SeedDatabase.Seed();
-SeedIdentity.Seed(userManager,roleManager, app.Configuration).Wait();
+SeedIdentity.Seed(userManager, roleManager, app.Configuration).Wait();
 app.Run();
 

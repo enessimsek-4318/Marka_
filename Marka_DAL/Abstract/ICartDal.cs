@@ -9,5 +9,7 @@ namespace Marka_DAL.Abstract
 {
     public interface ICartDal:IRepository<Cart>
     {
+        Cart GetCartByUserId(string userId);
+        void DeleteFromCart(int cartId, int productId);
     }
 }
