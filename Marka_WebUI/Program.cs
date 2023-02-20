@@ -118,6 +118,11 @@ app.UseEndpoints(endpoints =>
        name: "cart",
        pattern: "cart",
        defaults: new { controller = "Cart", action = "Index" });
+
+    endpoints.MapControllerRoute(
+       name: "checkout",
+       pattern: "checkout",
+       defaults: new { controller = "Cart", action = "Checkout" });
 });
 SeedDatabase.Seed();
 SeedIdentity.Seed(userManager, roleManager, app.Configuration).Wait();
