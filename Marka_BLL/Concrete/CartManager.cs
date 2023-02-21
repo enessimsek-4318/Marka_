@@ -40,6 +40,11 @@ namespace Marka_BLL.Concrete
             }
         }
 
+        public void ClearCart(string cartId)
+        {
+            _cartDal.ClearCart(cartId);
+        }
+
         public void DeleteFromCart(string UserId, int productId)
         {
             var cart=GetCartByUserId(UserId);

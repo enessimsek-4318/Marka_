@@ -231,7 +231,7 @@ namespace Marka_WebUI.Controllers
             request.BasketItems = basketItems;
 
 
-            return Payment.Create(request, options);
+            return Payment.Create(request, options); //Iyzico Kayıt İşlemini Gerçekleştiriyor.
             #endregion
 
         }

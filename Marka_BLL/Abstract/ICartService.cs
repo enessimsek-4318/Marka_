@@ -13,5 +13,6 @@ namespace Marka_BLL.Abstract
         Cart GetCartByUserId(string userId);
         void AddToCart(string UserId, int productId, int quantity);
         void DeleteFromCart(string UserId, int productId);
+        void ClearCart(string cartId);
     }
 }

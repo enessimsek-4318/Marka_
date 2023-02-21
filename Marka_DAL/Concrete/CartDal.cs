@@ -11,6 +11,15 @@ namespace Marka_DAL.Concrete
 {
     public class CartDal : GenericRepository<Cart, DataContext>, ICartDal
     {
+        public void ClearCart(string cartId)
+        {
+            using (var context = new DataContext())
+            {
+                var cmd = @"delete from CartItem where CartId=@p0";
+                context.Database.ExecuteSqlRaw(cmd, cartId);
+            }
+        }
+
         public void DeleteFromCart(int cartId, int productId)
         {
             using (var context=new DataContext())
@@ -24,7 +33,14 @@ namespace Marka_DAL.Concrete
         {
             using (var context=new DataContext())
             {
-                return context.Carts.Include(İ => İ.CartItems).ThenInclude(i => i.Product).ThenInclude(i=> i.Images).FirstOrDefault(i => i.UserId == userId);
+                return context.Carts.Include(i => i.CartItems)
+                        .ThenInclude(i => i.Product)
+                        .ThenInclude(i => i.Images)
+                        .Include(i => i.CartItems)
+                        .ThenInclude(i => i.Product)
+                        .ThenInclude(i => i.ProductCategories)
+                        .ThenInclude(i => i.Category)
+                        .FirstOrDefault(i => i.UserId == userId);
             }
         }
     }
