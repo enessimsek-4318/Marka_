@@ -1,4 +1,6 @@
-﻿namespace Marka_WebUI.Models
+﻿using Marka_Entity;
+
+namespace Marka_WebUI.Models
 {
     public class CartModel
     {
@@ -13,6 +15,7 @@
     {
         public int CartItemId { get; set; }
         public int ProductId { get; set; }
+        public Product Product { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
         public string ImageUrl { get; set; }

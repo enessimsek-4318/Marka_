@@ -65,6 +65,8 @@ builder.Services.AddScoped<ICommentDal, CommentDal>();
 builder.Services.AddScoped<ICommentService, CommentManager>();
 builder.Services.AddScoped<ICartDal, CartDal>();
 builder.Services.AddScoped<ICartService, CartManager>();
+builder.Services.AddScoped<IOrderDal, OrderDal>();
+builder.Services.AddScoped<IOrderService, OrderManager>();
 
 builder.Services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Latest);
 
