@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marka_WebUI", "Marka_WebUI\Marka_WebUI.csproj", "{5024B867-6996-464D-9DD2-3F5912CCF9C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marka_WebUI", "Marka_WebUI\Marka_WebUI.csproj", "{5024B867-6996-464D-9DD2-3F5912CCF9C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marka_DAL", "Marka_DAL\Marka_DAL.csproj", "{3852CDC6-9426-4327-BD03-3C04D18A442A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marka_DAL", "Marka_DAL\Marka_DAL.csproj", "{3852CDC6-9426-4327-BD03-3C04D18A442A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marka_BLL", "Marka_BLL\Marka_BLL.csproj", "{323E691E-705F-46F8-B051-907E977F5A3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marka_BLL", "Marka_BLL\Marka_BLL.csproj", "{323E691E-705F-46F8-B051-907E977F5A3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marka_Entity", "Marka_Entity\Marka_Entity.csproj", "{666C67E4-7CB8-40C1-A5D4-EFDC81CDDA08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marka_Entity", "Marka_Entity\Marka_Entity.csproj", "{666C67E4-7CB8-40C1-A5D4-EFDC81CDDA08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marka_WebAPI", "Marka_WebAPI\Marka_WebAPI.csproj", "{D408897E-4621-46DD-AA73-0BB57E400869}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{666C67E4-7CB8-40C1-A5D4-EFDC81CDDA08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{666C67E4-7CB8-40C1-A5D4-EFDC81CDDA08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{666C67E4-7CB8-40C1-A5D4-EFDC81CDDA08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D408897E-4621-46DD-AA73-0BB57E400869}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D408897E-4621-46DD-AA73-0BB57E400869}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D408897E-4621-46DD-AA73-0BB57E400869}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D408897E-4621-46DD-AA73-0BB57E400869}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
