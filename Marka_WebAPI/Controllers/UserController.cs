@@ -24,5 +24,19 @@ namespace Marka_WebAPI.Controllers
             }
             return NotFound();
         }
+        [HttpGet("{Id}")]
+        public async Task<ActionResult<ApplicationUser>> GetUser(string Id)
+        {
+            if (_userManager.Users != null)
+            {
+                var user = await _userManager.Users.Where(i => i.Id == Id).FirstOrDefaultAsync();
+                if (user!=null)
+                {
+                    return user;
+                }
+                return NotFound();
+            }
+            return NotFound();
+        }
     }
 }
