@@ -1,4 +1,5 @@
 ﻿using Marka_WebAPI.Identity;
+using Marka_WebAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,18 @@ namespace Marka_WebAPI.Controllers
                 return NotFound();
             }
             return NotFound();
+        }
+        [HttpPost]
+        public async Task<ActionResult<ApplicationUser>> PostUser(UserModel model)
+        {
+            var user = new ApplicationUser()
+            {
+                UserName = model.UserName,
+                Email = model.Email,
+                FullName = model.FullName,
+            };
+            await _userManager.CreateAsync(user,model.Password);
+            return CreatedAtAction(nameof(GetUser), new {id=user.Id},user);
         }
     }
 }
