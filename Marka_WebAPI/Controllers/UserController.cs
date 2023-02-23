@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Marka_WebAPI.Controllers
 {
@@ -19,7 +20,7 @@ namespace Marka_WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ApplicationUser>>> GetUsers()
         {
-            if (_userManager.Users!=null)
+            if (_userManager.Users != null)
             {
                 return await _userManager.Users.ToListAsync();
             }
@@ -31,7 +32,7 @@ namespace Marka_WebAPI.Controllers
             if (_userManager.Users != null)
             {
                 var user = await _userManager.Users.Where(i => i.Id == Id).FirstOrDefaultAsync();
-                if (user!=null)
+                if (user != null)
                 {
                     return user;
                 }
@@ -48,8 +49,41 @@ namespace Marka_WebAPI.Controllers
                 Email = model.Email,
                 FullName = model.FullName,
             };
-            await _userManager.CreateAsync(user,model.Password);
-            return CreatedAtAction(nameof(GetUser), new {id=user.Id},user);
+            await _userManager.CreateAsync(user, model.Password);
+            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutUser(string id,UserModel model)
+        {
+            if (id!=model.Id)
+            {
+                return BadRequest();
+            }
+            var user = await _userManager.Users.Where(i=> i.Id==id).FirstOrDefaultAsync();
+            user.UserName=model.UserName;
+            user.Email=model.Email;
+            user.FullName=model.FullName;
+            try
+            {
+                await _userManager.UpdateAsync(user);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return NoContent();
+            
+        }
+        private bool UserExists(string id)
+        {
+            return (_userManager.Users?.Any(u => u.Id == id)).GetValueOrDefault();
         }
     }
 }
