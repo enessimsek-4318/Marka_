@@ -53,16 +53,16 @@ namespace Marka_WebAPI.Controllers
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(string id,UserModel model)
+        public async Task<IActionResult> PutUser(string id, UserModel model)
         {
-            if (id!=model.Id)
+            if (id != model.Id)
             {
                 return BadRequest();
             }
-            var user = await _userManager.Users.Where(i=> i.Id==id).FirstOrDefaultAsync();
-            user.UserName=model.UserName;
-            user.Email=model.Email;
-            user.FullName=model.FullName;
+            var user = await _userManager.Users.Where(i => i.Id == id).FirstOrDefaultAsync();
+            user.UserName = model.UserName;
+            user.Email = model.Email;
+            user.FullName = model.FullName;
             try
             {
                 await _userManager.UpdateAsync(user);
@@ -79,7 +79,21 @@ namespace Marka_WebAPI.Controllers
                 }
             }
             return NoContent();
-            
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            if (_userManager.Users == null)
+            {
+                return NotFound();
+            }
+            var user = await _userManager.Users.FirstOrDefaultAsync(i=> i.Id == id);
+            if (user==null)
+            {
+                return NotFound();
+            }
+            _userManager.DeleteAsync(user);
+            return NoContent();
         }
         private bool UserExists(string id)
         {
