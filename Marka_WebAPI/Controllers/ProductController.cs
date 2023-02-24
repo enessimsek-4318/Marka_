@@ -2,6 +2,7 @@
 using Marka_Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Marka_WebAPI.Controllers
 {
@@ -14,10 +15,10 @@ namespace Marka_WebAPI.Controllers
         {
             _productService=productService;
         }
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
-        //{
-        //    return await _productService.GetListQueryable();
-        //}
+        [HttpGet]
+        public async Task<IEnumerable<Product>> GetProducts()
+        {
+            return await _productService.GetListProduct();
+        }
     }
 }

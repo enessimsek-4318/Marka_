@@ -15,5 +15,6 @@ namespace Marka_DAL.Abstract
         int GetCountByCategory(string category);
         Product GetByIdWithCategories(int id);
         void Update(Product entity, int[] categoryIds);
+        Task<IEnumerable<Product>> GetListProduct();
     }
 }

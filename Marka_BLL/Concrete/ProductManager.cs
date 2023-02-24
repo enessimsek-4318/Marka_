@@ -52,6 +52,11 @@ namespace Marka_BLL.Concrete
             return _productDal.GetCountByCategory(category);
         }
 
+        public Task<IEnumerable<Product>> GetListProduct()
+        {
+            return _productDal.GetListProduct();
+        }
+
         public Product GetProductDetails(int id)
         {
             return _productDal.GetProductDetails(id);

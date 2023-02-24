@@ -22,6 +22,13 @@ namespace Marka_DAL.Concrete
                     :context.Products.Include("Images").Where(filter).ToList();
             }
         }
+        public async Task<IEnumerable<Product>> GetListProduct()
+        {
+            using (var context = new DataContext())
+            {
+                return await context.Products.ToListAsync();
+            }
+        }
 
         public Product GetByIdWithCategories(int id)
         {

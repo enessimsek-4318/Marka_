@@ -14,6 +14,7 @@ namespace Marka_BLL.Abstract
         Product GetProductDetails(int id);
         Product Find(Expression<Func<Product, bool>> filter);
         List<Product> GetAll(Expression<Func<Product, bool>> filter = null);
+        Task<IEnumerable<Product>> GetListProduct();
         List<Product> GetProductsByCategory(string category, int page, int pageSize);
         void Create(Product entity);
         void Update(Product entity);
