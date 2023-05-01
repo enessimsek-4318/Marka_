@@ -37,6 +37,7 @@ namespace Marka_WebUI.Controllers
                 FullName = model.FullName,
                 Email = model.Email,
                 UserName = model.UserName,
+               
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
